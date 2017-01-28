@@ -13,6 +13,10 @@ import io.vertx.ext.web.RoutingContext;
 public class GlobalHandlers {
     private GlobalHandlers(){}
 
+    public static void lbCheck(RoutingContext ctx){
+        ctx.response().end("ok");
+    }
+
     public static void error(RoutingContext ctx){
         int status;
         String msg;

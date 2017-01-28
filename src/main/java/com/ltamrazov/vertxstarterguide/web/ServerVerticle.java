@@ -23,8 +23,6 @@ public class ServerVerticle extends AbstractVerticle{
         HelloController controller = new HelloController(vertx, service);
         Router helloRouter = controller.getRouter();
 
-        // Mount the RouterFactory on /api/v1 end point
-        // Initiate the main router and RouterFactory
         Router mainRouter = Router.router(vertx);
         mainRouter.route().consumes("application/json");
         mainRouter.route().produces("application/json");
@@ -37,6 +35,7 @@ public class ServerVerticle extends AbstractVerticle{
                 .allowedMethods(allowMethods));
 
         mainRouter.mountSubRouter(API.HELLO_API, helloRouter);
+        mainRouter.get(API.LB_CHECK).handler(GlobalHandlers::lbCheck);
         mainRouter.route().failureHandler(GlobalHandlers::error);
 
         // Create the http server and pass it the router

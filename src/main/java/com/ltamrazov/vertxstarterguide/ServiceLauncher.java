@@ -11,9 +11,9 @@ import io.vertx.core.Future;
 public class ServiceLauncher extends AbstractVerticle{
     @Override
     public void start(Future<Void> done){
-        int WORKER_POOL_SIZE = 500;
-        // Deploy a single verticle with 500 workers.
-        DeploymentOptions opts = new DeploymentOptions().setWorkerPoolSize(500);
+        int WORKER_POOL_SIZE = 100;
+
+        DeploymentOptions opts = new DeploymentOptions().setWorkerPoolSize(WORKER_POOL_SIZE);
         String verticle = ServerVerticle.class.getName();
         vertx.deployVerticle(verticle, opts, res -> {
             if(res.failed()){

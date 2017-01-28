@@ -27,15 +27,10 @@ public class HelloController {
     public Router getRouter(){
         if(router == null){
             router = Router.router(vertx);
-            router.get(API.LB_CHECK).handler(this::lbCheck);
             router.get(API.GREETING).handler(this::getGreeting);
         }
 
         return router;
-    }
-
-    private void lbCheck(RoutingContext ctx){
-        ctx.response().end("ok");
     }
 
     private void getGreeting(RoutingContext ctx){
@@ -60,8 +55,6 @@ public class HelloController {
 
         }
         else {
-            // Cast the exception and return error.
-            // The service insures there are no other possibilities for exception.
             ctx.fail(res.cause());
         }
     }
