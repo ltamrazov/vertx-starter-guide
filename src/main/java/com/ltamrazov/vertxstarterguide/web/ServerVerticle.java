@@ -1,5 +1,6 @@
 package com.ltamrazov.vertxstarterguide.web;
 
+import com.google.inject.Inject;
 import com.ltamrazov.vertxstarterguide.config.API;
 import com.ltamrazov.vertxstarterguide.service.HelloWorld;
 import io.vertx.core.AbstractVerticle;
@@ -16,11 +17,16 @@ import java.util.Set;
  * Created by levontamrazov on 2017-01-28.
  */
 public class ServerVerticle extends AbstractVerticle{
+    private HelloController controller;
+
+    @Inject
+    public ServerVerticle(HelloController controller) {
+        this.controller = controller;
+    }
+
     @Override
     public void start(Future<Void> future) throws Exception{
         int PORT = 8181;
-        HelloWorld service = new HelloWorld();
-        HelloController controller = new HelloController(vertx, service);
         Router helloRouter = controller.getRouter();
 
         Router mainRouter = Router.router(vertx);

@@ -1,5 +1,6 @@
 package com.ltamrazov.vertxstarterguide.service;
 
+import com.google.inject.Inject;
 import com.ltamrazov.vertxstarterguide.config.Events;
 import com.ltamrazov.vertxstarterguide.domain.Greeting;
 import io.netty.handler.codec.http.HttpResponseStatus;
@@ -16,6 +17,16 @@ import io.vertx.core.json.JsonObject;
  * bus
  */
 public class HelloWorker extends AbstractVerticle{
+    private HelloWorld service;
+
+    /**
+     * Constructor takes a service this verticle should be using.
+     * @param service - HelloWorld service instance
+     */
+    @Inject
+    public HelloWorker(HelloWorld service) {
+        this.service = service;
+    }
 
     /**
      * Start method gets called when the verticle is deployed.
@@ -24,9 +35,6 @@ public class HelloWorker extends AbstractVerticle{
      */
     @Override
     public void start(Future<Void> done){
-        // initiate our service.
-        HelloWorld service = new HelloWorld();
-
         // Create a message consumer of type String
         // and set it to listen ont he GREET event.
         MessageConsumer<String> consumer= vertx.eventBus().consumer(Events.GREET);
