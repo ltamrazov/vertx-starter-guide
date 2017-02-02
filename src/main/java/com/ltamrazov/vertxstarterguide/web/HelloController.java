@@ -1,10 +1,12 @@
 package com.ltamrazov.vertxstarterguide.web;
 
 import com.ltamrazov.vertxstarterguide.config.API;
+import com.ltamrazov.vertxstarterguide.config.Events;
 import com.ltamrazov.vertxstarterguide.service.HelloWorld;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.Message;
 import io.vertx.core.json.EncodeException;
 import io.vertx.core.json.Json;
 import io.vertx.core.json.JsonObject;
@@ -28,6 +30,7 @@ public class HelloController {
         if(router == null){
             router = Router.router(vertx);
             router.get(API.GREETING).handler(this::getGreeting);
+            router.get(API.GREETING_W).handler(this::getGreetingW);
         }
 
         return router;
@@ -43,6 +46,14 @@ public class HelloController {
         );
     }
 
+    private void getGreetingW(RoutingContext ctx){
+        String data = new JsonObject()
+                .put("name", ctx.request().getParam("name"))
+                .encode();
+
+        vertx.eventBus().send(Events.GREET, data, res -> { handleEventBusResponse(res, ctx); });
+    }
+
     private void handleAsyncResponse(AsyncResult<Object> res, RoutingContext ctx){
         // Handler for the future. If successful, encode result and send
         if(res.succeeded()){
@@ -53,6 +64,15 @@ public class HelloController {
                 ctx.fail(new RuntimeException("Failed to encode results."));
             }
 
+        }
+        else {
+            ctx.fail(res.cause());
+        }
+    }
+
+    private void handleEventBusResponse(AsyncResult<Message<Object>> res, RoutingContext ctx){
+        if(res.succeeded()){
+            ctx.response().end(res.result().body().toString());
         }
         else {
             ctx.fail(res.cause());
