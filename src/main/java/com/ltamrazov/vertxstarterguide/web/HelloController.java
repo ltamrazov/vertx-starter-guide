@@ -4,7 +4,6 @@ import com.google.inject.Inject;
 import com.ltamrazov.vertxstarterguide.config.API;
 import com.ltamrazov.vertxstarterguide.config.Events;
 import com.ltamrazov.vertxstarterguide.service.HelloWorld;
-import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Vertx;
 import io.vertx.core.eventbus.Message;
