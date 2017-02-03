@@ -3,6 +3,7 @@ package com.ltamrazov.vertxstarterguide.web;
 import com.ltamrazov.vertxstarterguide.exceptions.CustomException;
 import io.netty.handler.codec.http.HttpResponseStatus;
 import io.vertx.core.Vertx;
+import io.vertx.core.eventbus.ReplyException;
 import io.vertx.core.json.JsonObject;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.RoutingContext;
@@ -24,7 +25,9 @@ public class GlobalHandlers {
         // Get thrown exception from context
         Throwable failure = ctx.failure();
 
-        if(CustomException.class.isAssignableFrom(failure.getClass())){
+        if(CustomException.class.isAssignableFrom(failure.getClass()) ||
+                ReplyException.class.isAssignableFrom(failure.getClass()))
+        {
             msg = failure.getMessage();
             status = HttpResponseStatus.BAD_REQUEST.code();
         }

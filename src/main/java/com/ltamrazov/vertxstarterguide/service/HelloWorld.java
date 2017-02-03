@@ -12,7 +12,7 @@ public class HelloWorld {
 
     public Greeting greet(String name){
         try{
-            Thread.sleep(1500);
+            Thread.sleep(10);
             return new Greeting(name);
         }catch (InterruptedException e){
             throw new RuntimeException("This is a safe message");

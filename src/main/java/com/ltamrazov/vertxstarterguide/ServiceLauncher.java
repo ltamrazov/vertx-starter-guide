@@ -26,6 +26,7 @@ public class ServiceLauncher extends AbstractVerticle{
 
         DeploymentOptions workerOpts = new DeploymentOptions()
                 .setWorker(true)
+                .setMultiThreaded(true)
                 .setWorkerPoolSize(WORKER_POOL_SIZE);
 
         CompositeFuture.all(
