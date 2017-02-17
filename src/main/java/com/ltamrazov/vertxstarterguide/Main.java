@@ -11,7 +11,7 @@ import io.vertx.core.json.JsonObject;
  * Created by levontamrazov on 2017-01-28.
  * Main class will instantiate vertx and deploy our ServiceLauncher
  */
-public class Main extends AbstractVerticle{
+public class Main{
 
     /**
      * Main method that instantiates Vertx and deploys the launcher verticle
